@@ -11,7 +11,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/knpmayy/QA-Midterm-Exam/issues"
   },
@@ -19,5 +19,8 @@
   "devDependencies": {
     "@playwright/test": "^1.58.2",
     "@types/node": "^25.3.3"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.19"
   }
 }
