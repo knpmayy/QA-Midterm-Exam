@@ -89,32 +89,32 @@ test.describe('TC5: Fields validation', () => {
             await expect(page.locator('#example-modal-sizes-title-lg')).not.toBeVisible();
         });
 
-        test('TC5.12: cannot submit form if email has blank characters before "@" symbol', async ({ page }) => {
-            instance.email = ' user@example.com';
+        test('TC5.12: cannot submit form if email has nothing before "@" symbol', async ({ page }) => {
+            instance.email = '@example.com';
             await gotoWebsite(page);
             await inputFullProfile(page, instance);
             await page.getByRole('button', { name: 'Submit' }).click();
             await expect(page.locator('#example-modal-sizes-title-lg')).not.toBeVisible();
         });
 
-        test('TC5.13: cannot submit form if email has blank characters after "@" symbol', async ({ page }) => {
-            instance.email = 'user@ example.com';
+        test('TC5.13: cannot submit form if email has no domain after "@" symbol', async ({ page }) => {
+            instance.email = 'user@';
             await gotoWebsite(page);
             await inputFullProfile(page, instance);
             await page.getByRole('button', { name: 'Submit' }).click();
             await expect(page.locator('#example-modal-sizes-title-lg')).not.toBeVisible();
         });
 
-        test('TC5.14: cannot submit form if email has blank characters between "@" and "."', async ({ page }) => {
-            instance.email = 'user@exam ple.com';
+        test('TC5.14: cannot submit form if email has nothing between "@" and "."', async ({ page }) => {
+            instance.email = 'user@.com';
             await gotoWebsite(page);
             await inputFullProfile(page, instance);
             await page.getByRole('button', { name: 'Submit' }).click();
             await expect(page.locator('#example-modal-sizes-title-lg')).not.toBeVisible();
         });
 
-        test('TC5.15: cannot submit form if email has blank characters after "." symbol', async ({ page }) => {
-            instance.email = 'user@example. com';
+        test('TC5.15: cannot submit form if email has nothing after "." symbol', async ({ page }) => {
+            instance.email = 'user@example.';
             await gotoWebsite(page);
             await inputFullProfile(page, instance);
             await page.getByRole('button', { name: 'Submit' }).click();
@@ -136,17 +136,25 @@ test.describe('TC5: Fields validation', () => {
             await page.getByRole('button', { name: 'Submit' }).click();
             await expect(page.locator('#example-modal-sizes-title-lg')).not.toBeVisible();
         });
+
+        test('TC5.18: cannot submit form if email contains spaces', async ({ page }) => {
+            instance.email = 'user @example.com';
+            await gotoWebsite(page);
+            await inputFullProfile(page, instance);
+            await page.getByRole('button', { name: 'Submit' }).click();
+            await expect(page.locator('#example-modal-sizes-title-lg')).not.toBeVisible();
+        });
     });
 
     test.describe('Date of Birth field validation', () => {
-        test('TC5.18: if do not change date of birth it must be current date', async ({ page }) => {
+        test('TC5.19: if do not change date of birth it must be current date', async ({ page }) => {
             await gotoWebsite(page);
             const currentDate = dayjs().format('DD MMM YYYY');
             const inputValue = await page.locator('#dateOfBirthInput').inputValue();
             expect(inputValue).toBe(currentDate);
         });
 
-        test('TC5.19: can select date of birth using date picker', async ({ page }) => {
+        test('TC5.20: can select date of birth using date picker', async ({ page }) => {
             await gotoWebsite(page);
             await manualClickInputBirthdate(page, instance.birthdate);
             const expected = dayjs(instance.birthdate).format('DD MMM YYYY');
